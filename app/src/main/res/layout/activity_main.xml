@@ -7,9 +7,8 @@
         android:id="@+id/fragment_host"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
-
-
-
-    </androidx.fragment.app.FragmentContainerView>
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/routes"
+        tools:context=".MainActivity"/>
 </layout>
