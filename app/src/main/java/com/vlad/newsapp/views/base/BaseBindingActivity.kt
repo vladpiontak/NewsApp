@@ -15,7 +15,7 @@ abstract class BaseBindingActivity<Binding: ViewDataBinding>: AppCompatActivity(
     @get:LayoutRes
     protected abstract val layoutId: Int
 
-    protected lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
