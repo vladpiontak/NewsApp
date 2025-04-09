@@ -1,6 +1,6 @@
-package com.vlad.newsapp.data
+package com.vlad.newsapp.data.entity
 
-import android.media.Image
+import com.google.gson.annotations.SerializedName
 
 data class ItemPreviewNews(
     val id: Int?,
@@ -9,13 +9,13 @@ data class ItemPreviewNews(
     val title: String?,
     val description: String?,
     val url: String?,
+    @SerializedName("urlToImage")
     val urlImage: String?,
     val publishedAt: String?,
     val content: String?,
-
-)
+    )
 
 data class Source(
-    val id: Int?,
+    val id: String?,
     val name: String?
 )

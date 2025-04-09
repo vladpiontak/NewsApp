@@ -6,7 +6,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.vlad.newsapp.data.ItemPreviewNews
+import com.vlad.newsapp.data.entity.ItemPreviewNews
 import com.vlad.newsapp.databinding.ItemPreviewBinding
 
 class MainAdapter: ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallback()){
