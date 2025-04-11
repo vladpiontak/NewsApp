@@ -4,29 +4,44 @@ import android.net.NetworkRequest
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vlad.newsapp.App
 import com.vlad.newsapp.data.Network
 import com.vlad.newsapp.data.NewsRequest
 import com.vlad.newsapp.data.entity.ItemPreviewNews
 import com.vlad.newsapp.data.entity.Source
 import com.vlad.newsapp.data.entity.StatusNewsResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel: ViewModel() {
+    private val _queryText = MutableStateFlow<String>("")
+    val queryText: StateFlow<String> = _queryText
+
     private val _data = MutableStateFlow<List<ItemPreviewNews>>(listOf())
     val data: StateFlow<List<ItemPreviewNews>> = _data
+
+    private var isPressSearch: Boolean = false
+    private  var tempNetwork:NewsRequest = Network().retrofitBuilder?.create(NewsRequest::class.java)!!
+
     init {
         //getDataTest()
         getDataBySearch()
+        changeQueryText()
     }
 
-    private fun getDataBySearch(){
+    fun getDataBySearch(query: String = "bitcoin"){
         viewModelScope.launch {
-            Network().retrofitBuilder.create(NewsRequest::class.java).getEverythingBySearch().enqueue(object:
+
+            tempNetwork.getEverythingBySearch(query).enqueue(object:
                 Callback<StatusNewsResponse>{
                 override fun onResponse(
                     call: Call<StatusNewsResponse>,
@@ -44,6 +59,20 @@ class MainViewModel: ViewModel() {
                 }
             )
 
+        }
+    }
+
+    fun updateQueryText(query: String, isPressSearch: Boolean = false){
+        _queryText.tryEmit(query)
+        this.isPressSearch = isPressSearch
+
+    }
+
+    private fun changeQueryText(){
+        viewModelScope.launch{
+            queryText.debounce(if (isPressSearch)0 else 1500).collect{
+                getDataBySearch(it)
+            }
         }
     }
     private fun getDataTest(){

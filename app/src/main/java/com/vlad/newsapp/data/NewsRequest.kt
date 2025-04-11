@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface NewsRequest {
     @GET("everything")
-    fun getEverythingBySearch(@Query("q") q: String = "bitcoin"): Call<StatusNewsResponse>
+    fun getEverythingBySearch(@Query("q") query: String = "bitcoin"): Call<StatusNewsResponse>
 }

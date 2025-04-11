@@ -28,7 +28,6 @@
             app:itemIconTint="#8C2121"
             app:itemTextColor="#8C2121"
             app:itemRippleColor="@color/black"
-            app:itemActiveIndicatorStyle=""
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
