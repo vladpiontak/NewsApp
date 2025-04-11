@@ -2,25 +2,35 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_host"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true"
             app:navGraph="@navigation/routes"
-            tools:context=".MainActivity"/>
+            tools:context=".MainActivity"
+            tools:layout="@layout/fragment_main"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav_bar"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@android:"/>
+            app:menu="@menu/bottom_nav_bar_menu"
+            app:backgroundTint="#AEAAAA"
+            app:itemIconTint="#8C2121"
+            app:itemTextColor="#8C2121"
+            app:itemRippleColor="@color/black"
+            app:itemActiveIndicatorStyle=""
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
