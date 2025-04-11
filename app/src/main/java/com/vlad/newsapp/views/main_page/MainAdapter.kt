@@ -6,6 +6,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
+import com.vlad.newsapp.R
 import com.vlad.newsapp.data.entity.ItemPreviewNews
 import com.vlad.newsapp.databinding.ItemPreviewBinding
 
@@ -18,16 +20,20 @@ class MainAdapter: ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallback(
     }
 
     override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
-        return holder.bind(null)
+        return holder.bind(getItem(position))
     }
-
-
 }
 
-class PreviewViewHolder(itemPreviewBinding: ViewDataBinding): ViewHolder(itemPreviewBinding.root){
+class PreviewViewHolder(var item: ItemPreviewBinding): ViewHolder(item.root){
     fun bind(data: ItemPreviewNews?) {
+        item.data = data
+        Picasso.get().load(data?.urlImage)
+            .placeholder(item.root.context.getDrawable(R.drawable.img)!!)
+            .into(item.image)
+
 
     }
+
 
     }
 

@@ -19,7 +19,8 @@ class Network() {
 
 class MainInterceptor: Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder().build()
+        val request = chain.request().newBuilder().addHeader("X-Api-Key", "3192a1bdf3954c7780708cf1611a4567")
+            .build()
         val response = chain.proceed(request)
         return response
     }
