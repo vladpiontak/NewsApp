@@ -18,10 +18,11 @@ import com.vlad.newsapp.views.category_page.NewsDialogFragment.Companion.RESULT_
 import com.vlad.newsapp.views.list_news.ListOfNewsFragment
 import com.vlad.newsapp.views.main_page.MainViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>() {
-    private val viewModel: CategoryViewModel by viewModels()
+    private val viewModel: CategoryViewModel by viewModel()
     private lateinit var listFragment:ListOfNewsFragment
     override val layoutId: Int
         get() = R.layout.fragment_category
@@ -29,6 +30,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listFragment = childFragmentManager.findFragmentById(R.id.list_fragment) as ListOfNewsFragment
+
+        listFragment.apply {
+            updatePage = {
+                viewModel.let {
+                    it.getDataByCategory(it.filterByCategory.value, it.filterByLanguage.value, it.filterByCountry.value)
+                }
+            }
+        }
 
         lifecycleScope.launch(){
             viewModel.data.collect{

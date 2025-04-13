@@ -1,4 +1,4 @@
-package com.vlad.newsapp.data.entity
+package com.vlad.newsapp.data.model
 
 data class StatusNewsResponse (
     val status: String?,

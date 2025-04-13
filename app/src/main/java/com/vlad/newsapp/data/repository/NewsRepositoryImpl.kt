@@ -1,23 +1,25 @@
 package com.vlad.newsapp.data.repository
 
-import com.vlad.newsapp.data.Network
-import com.vlad.newsapp.data.NewsRequest
-import com.vlad.newsapp.data.entity.StatusNewsResponse
+import com.vlad.newsapp.data.network.api_service.NewsService
+import com.vlad.newsapp.data.model.StatusNewsResponse
+import com.vlad.newsapp.utils.constants.DEFAULT_CATEGORY
+import com.vlad.newsapp.utils.constants.DEFAULT_SEARCH
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object NewsRepositoryImpl: NewsRepository{
-    private val network = Network().retrofitBuilder.create(NewsRequest::class.java)
-
-    override suspend fun getArticlesBySearch(query: String): StatusNewsResponse {
+class NewsRepositoryImpl( private val apiService: NewsService): NewsRepository{
+    override suspend fun getArticlesBySearch(query: String, page: Int): StatusNewsResponse {
         return withContext(Dispatchers.IO){
-            network.getEverythingBySearch()
+            apiService.getEverythingBySearch(query, page)
         }
     }
 
-    override suspend fun getHeadlinesByCategory(category: String?, language: String?, country: String?): StatusNewsResponse {
+    override suspend fun getHeadlinesByCategory(category: String?, language: String?, country: String?, page: Int): StatusNewsResponse {
         return withContext(Dispatchers.IO){
-            network.getHeadlinesByCategory(category ?: "entertainment", language, country)
+            apiService.getHeadlinesByCategory(category ?: DEFAULT_CATEGORY, language, country, page)
         }
     }
+
+
+
 }
