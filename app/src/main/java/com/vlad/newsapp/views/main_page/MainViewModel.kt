@@ -10,6 +10,8 @@ import com.vlad.newsapp.data.NewsRequest
 import com.vlad.newsapp.data.entity.ItemPreviewNews
 import com.vlad.newsapp.data.entity.Source
 import com.vlad.newsapp.data.entity.StatusNewsResponse
+import com.vlad.newsapp.data.repository.NewsRepository
+import com.vlad.newsapp.data.repository.NewsRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +25,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel: ViewModel() {
+    private val repository: NewsRepository = NewsRepositoryImpl
+
     private val _queryText = MutableStateFlow<String>("")
     val queryText: StateFlow<String> = _queryText
 
@@ -38,27 +42,12 @@ class MainViewModel: ViewModel() {
         changeQueryText()
     }
 
-    fun getDataBySearch(query: String = "bitcoin"){
+    fun getDataBySearch(query: String = "bitcoin") {
         viewModelScope.launch {
-
-            tempNetwork.getEverythingBySearch(query).enqueue(object:
-                Callback<StatusNewsResponse>{
-                override fun onResponse(
-                    call: Call<StatusNewsResponse>,
-                    response: Response<StatusNewsResponse>
-                ) {
-                    response.body()?.articles?.let{
-                        _data.tryEmit(it)
-                        Log.d("ee", "data " + it.toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<StatusNewsResponse>, t: Throwable) {
-                    Log.d("ee", "data error", t)
-                }
-                }
-            )
-
+            repository.getArticlesBySearch(query).let {
+                _data.tryEmit(it.articles)
+                Log.d("ee", "data " + it.toString())
+            }
         }
     }
 

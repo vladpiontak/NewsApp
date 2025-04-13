@@ -27,4 +27,5 @@ abstract class BaseBindingFragment<Binding: ViewDataBinding>: Fragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
+    
 }
