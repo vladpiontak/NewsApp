@@ -13,6 +13,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.RecyclerView
 import com.vlad.newsapp.R
 import com.vlad.newsapp.databinding.FragmentNewsDialogBinding
+import com.vlad.newsapp.utils.constants.DEFAULT_NONE
 import java.util.ArrayList
 
 class NewsDialogFragment: DialogFragment() {
@@ -20,7 +21,7 @@ class NewsDialogFragment: DialogFragment() {
     private  var data: ArrayList<String>? = null
     private var requestCode: String? = null
     private var selectedItem: String? = null
-    private var defaultValue: String = "None"
+    private var defaultValue: String = DEFAULT_NONE
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -31,7 +32,7 @@ class NewsDialogFragment: DialogFragment() {
             arguments?.apply {
                 data= getStringArrayList(NEWS_DIALOG_DATA)
                 requestCode = getString(REQUEST_KEY) ?: ""
-                defaultValue = getString(DEFAULT_VALUE) ?: "None"
+                defaultValue = getString(DEFAULT_VALUE) ?: DEFAULT_NONE
             }
 
 

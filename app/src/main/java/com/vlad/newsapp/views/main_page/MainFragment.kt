@@ -21,9 +21,11 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.vlad.newsapp.R
 import com.vlad.newsapp.databinding.FragmentMainBinding
 import com.vlad.newsapp.views.base.BaseBindingFragment
+import com.vlad.newsapp.views.detailed_page.DetailedFragment.Companion.ARGUMENT_DATA
 import com.vlad.newsapp.views.list_news.ListOfNewsFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -45,10 +47,23 @@ class MainFragment: BaseBindingFragment<FragmentMainBinding>() {
             updatePage = {
                 viewModel.getDataBySearch(viewModel.queryText.value)
             }
+            onClickItem = {
+                val bundle = Bundle()
+                bundle.putParcelable(ARGUMENT_DATA, it)
+                findNavController().navigate(R.id.action_mainFragment_to_detailedFragment, bundle)
+            }
         }
+
+
+
 
         lifecycleScope.launch(){
             viewModel.data.collect{
+                if (it.isEmpty())
+                    binding.emptyScreen.visibility = View.VISIBLE
+                else{
+                    binding.emptyScreen.visibility = View.GONE
+                }
                 listFragment.updateListOfArticles(it)
                 }
             }

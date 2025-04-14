@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.vlad.newsapp.R
 import com.vlad.newsapp.databinding.FragmentCategoryBinding
 import com.vlad.newsapp.views.base.BaseBindingFragment
@@ -15,6 +16,7 @@ import com.vlad.newsapp.views.category_page.NewsDialogFragment.Companion.DEFAULT
 import com.vlad.newsapp.views.category_page.NewsDialogFragment.Companion.NEWS_DIALOG_DATA
 import com.vlad.newsapp.views.category_page.NewsDialogFragment.Companion.REQUEST_KEY
 import com.vlad.newsapp.views.category_page.NewsDialogFragment.Companion.RESULT_KEY
+import com.vlad.newsapp.views.detailed_page.DetailedFragment
 import com.vlad.newsapp.views.list_news.ListOfNewsFragment
 import com.vlad.newsapp.views.main_page.MainViewModel
 import kotlinx.coroutines.launch
@@ -37,11 +39,20 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>() {
                     it.getDataByCategory(it.filterByCategory.value, it.filterByLanguage.value, it.filterByCountry.value)
                 }
             }
+            onClickItem = {
+                val bundle = Bundle()
+                bundle.putParcelable(DetailedFragment.ARGUMENT_DATA, it)
+                findNavController().navigate(R.id.action_categoryFragment_to_detailedFragment, bundle)
+            }
         }
 
         lifecycleScope.launch(){
             viewModel.data.collect{
-
+                if (it.isEmpty())
+                    binding.emptyScreen.visibility = View.VISIBLE
+                else{
+                    binding.emptyScreen.visibility = View.GONE
+                }
                 Log.d("ee", "data" + it)
                 listFragment.updateListOfArticles(it)
             }

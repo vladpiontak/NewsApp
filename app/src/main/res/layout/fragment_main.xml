@@ -12,6 +12,24 @@
         android:name="com.vlad.newsapp.views.list_news.ListOfNewsFragment"
         />
 
+    <FrameLayout
+        android:id="@+id/empty_screen"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:background="#B59B9B"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/empty_data"
+            android:textSize="40sp">
+
+        </TextView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,32 +5,27 @@ import com.ua.net.apteka.di.koin.managersModule
 import com.ua.net.apteka.di.koin.viewModelModule
 import com.vlad.newsapp.data.network.networkModule
 import com.vlad.newsapp.data.repository.NewsRepository
+import com.vlad.newsapp.koin.dbModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class App: Application() {
     override fun onCreate() {
         super.onCreate()
-
-        startKoin()
-
+        setupKoin()
     }
-
-    private fun startKoin() {
-        org.koin.core.context.startKoin {
+    private fun setupKoin() {
+        startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@App)
             modules(
                 managersModule,
                 networkModule,
-                viewModelModule
+                viewModelModule,
+                dbModule
             )
         }
     }
-    companion object{
-        var repository: NewsRepository? = null
-    }
-
-
 }

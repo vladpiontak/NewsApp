@@ -2,17 +2,12 @@ package com.vlad.newsapp.views.category_page
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.vlad.newsapp.R
 import com.vlad.newsapp.databinding.ItemCategoryBinding
-import com.vlad.newsapp.databinding.ItemPreviewBinding
 
 class CategoryAdapter(val onSelectedItem: ((value: String) -> Unit), val defaultValue: String): ListAdapter<String, CategoryViewHolder>(CategoryDiffUtil()) {
     private var selectedItemView: RadioButton? = null

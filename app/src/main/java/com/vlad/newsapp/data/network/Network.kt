@@ -38,7 +38,7 @@ private fun getApiService(retrofit: Retrofit): NewsService {
 
 class MainInterceptor: Interceptor{
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().newBuilder().addHeader("X-Api-Key", TOKEN_4)
+        val request = chain.request().newBuilder().addHeader("X-Api-Key", TOKEN_2)
             .build()
         val response = chain.proceed(request)
         return response

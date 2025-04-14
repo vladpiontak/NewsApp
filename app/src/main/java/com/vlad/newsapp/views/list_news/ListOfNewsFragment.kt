@@ -8,22 +8,26 @@ import com.vlad.newsapp.R
 import com.vlad.newsapp.data.model.ItemPreviewNews
 import com.vlad.newsapp.databinding.FragmentListOfNewsBinding
 import com.vlad.newsapp.views.base.BaseBindingFragment
-import com.vlad.newsapp.views.main_page.MainAdapter
 
 class ListOfNewsFragment: BaseBindingFragment<FragmentListOfNewsBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_list_of_news
 
+    var updatePage: (() -> Unit)? = null
+    var onClickItem: ((data: ItemPreviewNews) -> Unit)? = null
     private val adapter = MainAdapter()//MainAdapter()
 
-    var updatePage: (() -> Unit)? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.newsList.adapter = adapter
         settingRecyclerView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        adapter?.onClickItem = onClickItem
+    }
     private fun settingRecyclerView(){
         binding.newsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

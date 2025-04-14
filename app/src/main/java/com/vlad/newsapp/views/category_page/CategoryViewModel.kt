@@ -13,21 +13,18 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(private val repository: NewsRepository): ViewModel() {
     var filterByCategory: MutableStateFlow<String> = MutableStateFlow(DEFAULT_CATEGORY)
-
     var filterByLanguage: MutableStateFlow<String> = MutableStateFlow(DEFAULT_NONE)
-
     var filterByCountry: MutableStateFlow<String> = MutableStateFlow(DEFAULT_NONE)
-
     val combinedFlow = combine(filterByCategory, filterByLanguage, filterByCountry) { category, language, country ->
         arrayListOf(category, language, country)
     }
 
+    private val _data = MutableStateFlow<List<ItemPreviewNews>>(listOf())
+    val data: StateFlow<List<ItemPreviewNews>> = _data
+
     private var currentPage = 1
     private var isLoading = false
     private var isLastPage = false
-
-    private val _data = MutableStateFlow<List<ItemPreviewNews>>(listOf())
-    val data: StateFlow<List<ItemPreviewNews>> = _data
 
     init {
         registerChangeFilter()
@@ -59,10 +56,13 @@ class CategoryViewModel(private val repository: NewsRepository): ViewModel() {
         }
     }
 
-
     private  fun registerChangeFilter(){
         viewModelScope.launch {
             combinedFlow.collect{
+                _data.value = listOf()
+                currentPage=1
+                isLoading = false
+                isLastPage = false
                 val category = remNone(it[0])
                 val language = remNone(it[1])
                 val country = remNone(it[2])

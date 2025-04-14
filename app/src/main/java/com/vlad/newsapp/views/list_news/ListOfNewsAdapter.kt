@@ -1,4 +1,4 @@
-package com.vlad.newsapp.views.main_page
+package com.vlad.newsapp.views.list_news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,13 +10,17 @@ import com.vlad.newsapp.R
 import com.vlad.newsapp.data.model.ItemPreviewNews
 import com.vlad.newsapp.databinding.ItemPreviewBinding
 
-class MainAdapter : ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallback()) {
+class MainAdapter() : ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallback()) {
+    var onClickItem: ((data: ItemPreviewNews) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PreviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewHolder = ItemPreviewBinding.inflate(inflater, parent, false)
         return PreviewViewHolder(viewHolder)
     }
     override fun onBindViewHolder(holder: PreviewViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            onClickItem?.invoke(getItem(position))
+        }
         return holder.bind(getItem(position))
     }
 }

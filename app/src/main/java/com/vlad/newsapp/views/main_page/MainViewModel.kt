@@ -38,11 +38,9 @@ class MainViewModel(private val repository: NewsRepository): ViewModel() {
                     currentList.addAll(response.articles)
                     _data.emit(currentList)
 
-                    if (response.articles.size < 20) {
-                        isLastPage = true
-                    } else {
-                        currentPage++
-                    }
+
+                    currentPage++
+
                 } catch (e: Exception) {
 
                 } finally {

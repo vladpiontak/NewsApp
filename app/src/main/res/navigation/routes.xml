@@ -7,9 +7,26 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.vlad.newsapp.views.main_page.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailedFragment"
+            app:destination="@id/detailedFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.vlad.newsapp.views.category_page.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:label="CategoryFragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_detailedFragment"
+            app:destination="@id/detailedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedFragment"
+        android:name="com.vlad.newsapp.views.detailed_page.DetailedFragment"
+        android:label="DetailedFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.vlad.newsapp.data.model.ItemPreviewNews" />
+    </fragment>
 </navigation>
