@@ -20,7 +20,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         binding.bottomNavBar.setOnItemSelectedListener {
             val idFragment = when(it.itemId){
                 R.id.item_main -> R.id.mainFragment

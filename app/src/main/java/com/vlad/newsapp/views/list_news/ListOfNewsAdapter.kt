@@ -1,14 +1,17 @@
 package com.vlad.newsapp.views.list_news
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.vlad.newsapp.R
 import com.vlad.newsapp.data.model.ItemPreviewNews
 import com.vlad.newsapp.databinding.ItemPreviewBinding
+import java.lang.Exception
 
 class MainAdapter() : ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallback()) {
     var onClickItem: ((data: ItemPreviewNews) -> Unit)? = null
@@ -27,10 +30,19 @@ class MainAdapter() : ListAdapter<ItemPreviewNews, PreviewViewHolder>(DiffCallba
 
 class PreviewViewHolder(var item: ItemPreviewBinding) : ViewHolder(item.root) {
     fun bind(data: ItemPreviewNews?) {
+
         item.data = data
         Picasso.get().load(data?.urlImage)
-            .placeholder(item.root.context.getDrawable(R.drawable.img)!!)
-            .into(item.image)
+            .into(item.image, object: Callback{
+                override fun onSuccess() {
+                    item.progress.visibility = View.GONE
+                    item.image.visibility = View.VISIBLE
+                }
+
+                override fun onError(e: Exception?) {
+
+                }
+            })
 
 
     }
